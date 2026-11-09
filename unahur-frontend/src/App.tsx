@@ -7,6 +7,7 @@ import Register from './pages/Register'
 import PostDetail from './pages/PostDetail'
 import Profile from './pages/Profile'
 import NewPost from './pages/NewPost'
+import NotFound from './pages/NotFound'
 
 function App() {
   return (
@@ -20,6 +21,9 @@ function App() {
           <Route path="/post/:id" element={<PostDetail />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/new-post" element={<NewPost />} />
+
+
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
     </>

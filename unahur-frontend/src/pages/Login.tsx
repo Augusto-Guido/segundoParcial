@@ -1,117 +1,112 @@
-import { useState } from "react";
+import { useState, type FormEvent } from 'react'
+import { Link, Navigate, useLocation } from 'react-router'
+import { useAuth } from '../hooks/useAuth'
+import { useToast } from '../hooks/useToast'
+import { useDocumentTitle } from '../hooks/useDocumentTitle'
+import FormField from '../components/FormField'
+import { inputClass } from '../utils/format'
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
+  useDocumentTitle('Iniciar sesión')
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const { user, login } = useAuth()
+  const { showToast } = useToast()
+  const location = useLocation()
+  // ProtectedRoute guarda en "state" la ruta a la que quería ir la persona
+  const from = (location.state as { from?: string } | null)?.from ?? '/'
 
-    console.log("Email:", email);
-    console.log("Password:", password);
-    
-    //  conectar tu API de autenticación
-  };
+  const [nickName, setNickName] = useState('')
+  const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
+  const [touched, setTouched] = useState({ nickName: false, password: false })
+  const [serverError, setServerError] = useState('')
+  const [loading, setLoading] = useState(false)
+
+  // Si ya hay sesión (o se acaba de iniciar), no tiene sentido mostrar el login
+  if (user) return <Navigate to={from} replace />
+
+  const nickError = !nickName.trim() ? 'Ingresá tu nickname' : ''
+  const passError = !password ? 'Ingresá tu contraseña' : ''
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault()
+    setTouched({ nickName: true, password: true })
+    setServerError('')
+    if (nickError || passError) return
+
+    setLoading(true)
+    try {
+      const logged = await login(nickName, password)
+      showToast(`¡Hola, ${logged.nickName}!`, 'success')
+    } catch (err) {
+      setServerError(err instanceof Error ? err.message : 'No se pudo iniciar sesión')
+      setLoading(false)
+    }
+  }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-950 px-4">
-      <div className="w-full max-w-md bg-slate-900 p-8 rounded-2xl shadow-2xl border border-slate-800">
+    <div className="auth-card card shadow-sm p-4">
+      <h1 className="h3 text-center mb-4">Iniciar sesión</h1>
 
-        <div className="text-center mb-8">
-          <div className="w-14 h-14 mx-auto mb-4 rounded-xl bg-blue-600 flex items-center justify-center">
-            <span className="text-white text-2xl font-bold">L</span>
-          </div>
-
-          <h1 className="text-3xl font-bold text-white">
-            Bienvenido
-          </h1>
-
-          <p className="text-slate-400 mt-2">
-            Inicia sesión en tu cuenta
-          </p>
+      {serverError && (
+        <div className="alert alert-danger py-2" role="alert">
+          {serverError}
         </div>
+      )}
 
-        <form onSubmit={handleSubmit} className="space-y-5">
+      <form onSubmit={handleSubmit} noValidate>
+        <FormField id="nickName" label="Nickname" error={touched.nickName ? nickError : ''}>
+          <input
+            id="nickName"
+            type="text"
+            className={inputClass(touched.nickName ? nickError : '')}
+            value={nickName}
+            onChange={e => setNickName(e.target.value)}
+            onBlur={() => setTouched(t => ({ ...t, nickName: true }))}
+            placeholder="Tu nickname"
+            autoComplete="username"
+            aria-invalid={touched.nickName && !!nickError}
+            aria-describedby={touched.nickName && nickError ? 'nickName-error' : undefined}
+          />
+        </FormField>
 
-          <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
-              Correo electrónico
-            </label>
-
+        <FormField
+          id="password"
+          label="Contraseña"
+          error={touched.password ? passError : ''}
+          hint="Contraseña de la demo: 123456"
+        >
+          <div className="input-group">
             <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="ejemplo@correo.com"
-              required
-              className="w-full px-4 py-3 rounded-lg bg-slate-800 border border-slate-700 text-white placeholder-slate-500 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition"
+              id="password"
+              type={showPassword ? 'text' : 'password'}
+              className={inputClass(touched.password ? passError : '')}
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+              onBlur={() => setTouched(t => ({ ...t, password: true }))}
+              placeholder="Tu contraseña"
+              autoComplete="current-password"
+              aria-invalid={touched.password && !!passError}
+              aria-describedby={touched.password && passError ? 'password-error' : undefined}
             />
-          </div>
-
-          <div>
-            <div className="flex justify-between mb-2">
-              <label className="text-sm font-medium text-slate-300">
-                Contraseña
-              </label>
-
-              <button
-                type="button"
-                className="text-sm text-blue-400 hover:text-blue-300"
-              >
-                ¿Olvidaste tu contraseña?
-              </button>
-            </div>
-
-            <div className="relative">
-              <input
-                type={showPassword ? "text" : "password"}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Ingresa tu contraseña"
-                required
-                className="w-full px-4 py-3 rounded-lg bg-slate-800 border border-slate-700 text-white placeholder-slate-500 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition"
-              />
-
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-slate-400 hover:text-white"
-              >
-                {showPassword ? "Ocultar" : "Mostrar"}
-              </button>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <input
-              type="checkbox"
-              id="remember"
-              className="w-4 h-4 accent-blue-600"
-            />
-
-            <label
-              htmlFor="remember"
-              className="text-sm text-slate-400"
+            <button
+              type="button"
+              className="btn btn-outline-secondary"
+              onClick={() => setShowPassword(s => !s)}
             >
-              Recordarme
-            </label>
+              {showPassword ? 'Ocultar' : 'Mostrar'}
+            </button>
           </div>
+        </FormField>
 
-          <button
-            type="submit"
-            className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition duration-200 shadow-lg shadow-blue-600/20"
-          >
-            Iniciar sesión
-          </button>
+        <button type="submit" className="btn btn-primary w-100" disabled={loading}>
+          {loading ? 'Ingresando…' : 'Iniciar sesión'}
+        </button>
+      </form>
 
-        </form>
-
-        <div className="mt-8 text-center text-xs text-slate-500">
-          © 2026 - Todos los derechos reservados
-        </div>
-
-      </div>
+      <p className="text-center text-muted mt-3 mb-0">
+        ¿No tenés cuenta? <Link to="/register">Registrate</Link>
+      </p>
     </div>
-  );
+  )
 }

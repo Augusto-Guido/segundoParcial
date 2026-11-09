@@ -1,206 +1,147 @@
-
-/* ===== CONFIGURACIÓN GENERAL ===== */
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+:root {
+  --primary: #6f5598;
+  --primary-dark: #5a447e;
+  --bg: #f7f8fc;
+  --text: #243b53;
+  --muted: #627d98;
+  --border: #e1e6ed;
 }
 
 body {
   font-family: 'Inter', 'Segoe UI', sans-serif;
-  background: #F7F8FC;
+  background: var(--bg);
+  color: var(--text);
 }
 
-/* ===== CONTENEDOR PRINCIPAL ===== */
+a { color: var(--primary); }
+.text-muted { color: var(--muted) !important; }
 
-.min-h-screen {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 25px;
-
-  background: linear-gradient(
-    135deg,
-    #F0EBF8 0%,
-    #F7F8FC 50%,
-    #E8F0F7 100%
-  );
+/* Botones y formularios (colores de Bootstrap) */
+.btn-primary {
+  --bs-btn-bg: var(--primary);
+  --bs-btn-border-color: var(--primary);
+  --bs-btn-hover-bg: var(--primary-dark);
+  --bs-btn-hover-border-color: var(--primary-dark);
+  --bs-btn-active-bg: var(--primary-dark);
+  --bs-btn-active-border-color: var(--primary-dark);
+  --bs-btn-disabled-bg: var(--primary);
+  --bs-btn-disabled-border-color: var(--primary);
+}
+.btn-outline-primary {
+  --bs-btn-color: var(--primary);
+  --bs-btn-border-color: var(--primary);
+  --bs-btn-hover-bg: var(--primary);
+  --bs-btn-hover-border-color: var(--primary);
+  --bs-btn-active-bg: var(--primary);
+  --bs-btn-active-border-color: var(--primary);
+}
+.form-control:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 0.2rem rgba(111, 85, 152, 0.2);
 }
 
-/* ===== TARJETA LOGIN ===== */
-
-.max-w-md {
-  width: 100%;
+/* Tarjeta de login / registro */
+.auth-card {
   max-width: 420px;
-  padding: 45px 38px;
-
-  background: rgba(255, 255, 255, 0.95);
-  border: 1px solid #E8EAF0;
-  border-radius: 24px;
-
-  box-shadow:
-    0 20px 50px rgba(36, 59, 83, 0.08),
-    0 5px 15px rgba(36, 59, 83, 0.04);
+  margin: 2rem auto;
+  border-color: var(--border);
+  border-radius: 1rem;
 }
 
-/* ===== LOGO ===== */
-
-.w-14 {
-  width: 58px;
-  height: 58px;
+/* Navbar */
+.topbar {
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.topbar-inner {
   display: flex;
   align-items: center;
-  justify-content: center;
-
-  background: linear-gradient(
-    135deg,
-    #627D98,
-    #9F86C0
-  );
-
-  border-radius: 17px;
-  box-shadow: 0 8px 20px rgba(159, 134, 192, 0.25);
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
 }
-
-.w-14 span {
-  color: white;
-  font-size: 27px;
-}
-
-/* ===== TITULOS ===== */
-
-h1 {
-  color: #243B53;
-  font-size: 30px;
-  font-weight: 750;
-  letter-spacing: -1px;
-}
-
-p {
-  color: #8290A3;
-  font-size: 14px;
-}
-
-/* ===== ETIQUETAS ===== */
-
-label {
-  color: #40556C;
-  font-size: 14px;
-  font-weight: 600;
-}
-
-/* ===== INPUTS ===== */
-
-input[type="email"],
-input[type="password"],
-input[type="text"] {
-  width: 100%;
-  padding: 15px 16px;
-
-  background: #F7F8FC;
-  border: 1px solid #E1E6ED;
-  border-radius: 12px;
-
-  color: #243B53;
-  font-size: 14px;
-
-  outline: none;
-  transition: all 0.25s ease;
-}
-
-input::placeholder {
-  color: #A7B0BE;
-}
-
-input:focus {
-  background: #FFFFFF;
-  border-color: #9F86C0;
-
-  box-shadow: 0 0 0 4px rgba(159, 134, 192, 0.12);
-}
-
-/* ===== BOTONES SECUNDARIOS ===== */
-
-button {
-  cursor: pointer;
-  font-family: inherit;
-}
-
-button[type="button"] {
-  border: none;
-  background: transparent;
-  color: #8B72B0;
-  font-size: 13px;
-  transition: color 0.2s ease;
-}
-
-button[type="button"]:hover {
-  color: #627D98;
-}
-
-/* ===== CHECKBOX ===== */
-
-input[type="checkbox"] {
-  accent-color: #8B72B0;
-  cursor: pointer;
-}
-
-/* ===== BOTÓN PRINCIPAL ===== */
-
-button[type="submit"] {
-  width: 100%;
-  padding: 15px;
-
-  border: none;
-  border-radius: 12px;
-
-  background: linear-gradient(
-    135deg,
-    #627D98,
-    #8B72B0
-  );
-
-  color: white;
-  font-size: 15px;
+.brand {
   font-weight: 700;
-
-  box-shadow: 0 8px 18px rgba(139, 114, 176, 0.25);
-
-  transition: all 0.25s ease;
+  font-size: 1.15rem;
+  text-decoration: none;
 }
-
-button[type="submit"]:hover {
-  transform: translateY(-2px);
-
-  box-shadow: 0 12px 24px rgba(139, 114, 176, 0.32);
+.nav-toggle {
+  border: 1px solid var(--border);
+  background: #fff;
+  border-radius: 0.5rem;
+  padding: 0.35rem 0.75rem;
 }
-
-button[type="submit"]:active {
-  transform: scale(0.98);
+.topnav {
+  display: none;
+  width: 100%;
+  flex-direction: column;
+  gap: 0.25rem;
 }
-
-/* ===== FOOTER ===== */
-
-.max-w-md > div:last-child {
-  color: #A3ADBA;
-  font-size: 12px;
+.topnav.open { display: flex; }
+.topnav a,
+.link-btn {
+  color: var(--text);
+  text-decoration: none;
+  padding: 0.4rem 0.75rem;
+  border-radius: 0.5rem;
+  background: none;
+  border: none;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
 }
-
-/* ===== RESPONSIVE ===== */
-
-@media (max-width: 480px) {
-  .min-h-screen {
-    padding: 16px;
+.topnav a:hover,
+.link-btn:hover { background: #f0ebf8; }
+.topnav a.active {
+  color: var(--primary);
+  font-weight: 600;
+  background: #f0ebf8;
+}
+@media (min-width: 768px) {
+  .nav-toggle { display: none; }
+  .topnav {
+    display: flex;
+    flex-direction: row;
+    width: auto;
+    align-items: center;
   }
+}
 
-  .max-w-md {
-    padding: 35px 24px;
-    border-radius: 20px;
-  }
-
-  h1 {
-    font-size: 26px;
-  }
+/* Toasts */
+.toast-stack {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 1080;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-width: min(360px, calc(100vw - 2rem));
+}
+.toast-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: #fff;
+  border-left: 4px solid var(--muted);
+  border-radius: 0.75rem;
+  box-shadow: 0 8px 24px rgba(36, 59, 83, 0.15);
+}
+.toast-item.success { border-left-color: #2f8a5b; }
+.toast-item.error { border-left-color: #c0392b; }
+.toast-item.warning { border-left-color: #d98e04; }
+.toast-item.info { border-left-color: #486581; }
+.toast-close {
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  line-height: 1;
+  color: var(--muted);
+  cursor: pointer;
 }

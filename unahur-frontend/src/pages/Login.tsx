@@ -5,6 +5,7 @@ import { useToast } from '../hooks/useToast'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
 import FormField from '../components/FormField'
 import { inputClass } from '../utils/format'
+import campus from '../assets/campus.jpg'
 
 export default function Login() {
   useDocumentTitle('Iniciar sesión')
@@ -45,68 +46,73 @@ export default function Login() {
   }
 
   return (
-    <div className="auth-card card shadow-sm p-4">
-      <h1 className="h3 text-center mb-4">Iniciar sesión</h1>
+    <div className="login-split">
+    <img src={campus} alt="" className="login-bg" />
+      <div className="login-form-side">
+        <div className="auth-card card p-4">
+          <h1 className="h3 text-center mb-4">Iniciar sesión</h1>
 
-      {serverError && (
-        <div className="alert alert-danger py-2" role="alert">
-          {serverError}
-        </div>
-      )}
+          {serverError && (
+            <div className="alert alert-danger py-2" role="alert">
+              {serverError}
+            </div>
+          )}
 
-      <form onSubmit={handleSubmit} noValidate>
-        <FormField id="nickName" label="Nickname" error={touched.nickName ? nickError : ''}>
-          <input
-            id="nickName"
-            type="text"
-            className={inputClass(touched.nickName ? nickError : '')}
-            value={nickName}
-            onChange={e => setNickName(e.target.value)}
-            onBlur={() => setTouched(t => ({ ...t, nickName: true }))}
-            placeholder="Tu nickname"
-            autoComplete="username"
-            aria-invalid={touched.nickName && !!nickError}
-            aria-describedby={touched.nickName && nickError ? 'nickName-error' : undefined}
-          />
-        </FormField>
+          <form onSubmit={handleSubmit} noValidate>
+            <FormField id="nickName" label="Nickname" error={touched.nickName ? nickError : ''}>
+              <input
+                id="nickName"
+                type="text"
+                className={inputClass(touched.nickName ? nickError : '')}
+                value={nickName}
+                onChange={e => setNickName(e.target.value)}
+                onBlur={() => setTouched(t => ({ ...t, nickName: true }))}
+                placeholder="Tu nickname"
+                autoComplete="username"
+                aria-invalid={touched.nickName && !!nickError}
+                aria-describedby={touched.nickName && nickError ? 'nickName-error' : undefined}
+              />
+            </FormField>
 
-        <FormField
-          id="password"
-          label="Contraseña"
-          error={touched.password ? passError : ''}
-          hint="Contraseña de la demo: 123456"
-        >
-          <div className="input-group">
-            <input
+            <FormField
               id="password"
-              type={showPassword ? 'text' : 'password'}
-              className={inputClass(touched.password ? passError : '')}
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-              onBlur={() => setTouched(t => ({ ...t, password: true }))}
-              placeholder="Tu contraseña"
-              autoComplete="current-password"
-              aria-invalid={touched.password && !!passError}
-              aria-describedby={touched.password && passError ? 'password-error' : undefined}
-            />
-            <button
-              type="button"
-              className="btn btn-outline-secondary"
-              onClick={() => setShowPassword(s => !s)}
+              label="Contraseña"
+              error={touched.password ? passError : ''}
+              hint="Contraseña de la demo: 123456"
             >
-              {showPassword ? 'Ocultar' : 'Mostrar'}
+              <div className="input-group">
+                <input
+                  id="password"
+                  type={showPassword ? 'text' : 'password'}
+                  className={inputClass(touched.password ? passError : '')}
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
+                  onBlur={() => setTouched(t => ({ ...t, password: true }))}
+                  placeholder="Tu contraseña"
+                  autoComplete="current-password"
+                  aria-invalid={touched.password && !!passError}
+                  aria-describedby={touched.password && passError ? 'password-error' : undefined}
+                />
+                <button
+                  type="button"
+                  className="btn btn-outline-secondary"
+                  onClick={() => setShowPassword(s => !s)}
+                >
+                  {showPassword ? 'Ocultar' : 'Mostrar'}
+                </button>
+              </div>
+            </FormField>
+
+            <button type="submit" className="btn btn-primary w-100" disabled={loading}>
+              {loading ? 'Ingresando…' : 'Iniciar sesión'}
             </button>
-          </div>
-        </FormField>
+          </form>
 
-        <button type="submit" className="btn btn-primary w-100" disabled={loading}>
-          {loading ? 'Ingresando…' : 'Iniciar sesión'}
-        </button>
-      </form>
-
-      <p className="text-center text-muted mt-3 mb-0">
-        ¿No tenés cuenta? <Link to="/register">Registrate</Link>
-      </p>
+          <p className="text-center text-muted mt-3 mb-0">
+            ¿No tenés cuenta? <Link to="/register">Registrate</Link>
+          </p>
+        </div>
+      </div>
     </div>
   )
 }

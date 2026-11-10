@@ -36,27 +36,15 @@ const Home = () => {
         <h2 className="m-0">Últimas Publicaciones</h2>
       </div>
 
-      <div className="row g-4">
+      <div className="feed">
         {loading ? (
-          <>
-            {[1, 2, 3].map((n) => (
-              <div className="col-md-6 col-lg-4" key={n}>
-                <PostSkeleton />
-              </div>
-            ))}
-          </>
+          [1, 2, 3].map((n) => <PostSkeleton key={n} />)
         ) : posts.length === 0 ? (
-          <div className="col-12">
-            <div className="alert alert-info text-center">
-              No hay publicaciones todavía. ¡Iniciá sesión y sé el primero en postear!
-            </div>
+          <div className="alert alert-info text-center">
+            No hay publicaciones todavía. ¡Iniciá sesión y sé el primero en postear!
           </div>
         ) : (
-          posts.map((post) => (
-            <div className="col-md-6 col-lg-4" key={post.id}>
-              <PostCard post={post} />
-            </div>
-          ))
+          posts.map((post) => <PostCard key={post.id} post={post} />)
         )}
       </div>
     </main>

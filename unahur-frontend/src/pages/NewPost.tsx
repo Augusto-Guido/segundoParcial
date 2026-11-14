@@ -58,33 +58,70 @@ const NewPost = () => {
   };
 
   return (
-    <main className="container pb-5" style={{ maxWidth: '600px' }}>
-      <h2 className="mb-4 text-primary">Crear Nueva Publicación</h2>
+    <main className="container pb-5 mt-4" style={{ maxWidth: '650px' }}>
+      <h2 className="mb-4 fw-bold text-dark">Crear publicación</h2>
 
-      <form onSubmit={handleSubmit} noValidate className="bg-white p-4 rounded-4 shadow-sm border border-light">
-        {serverError && <div className="alert alert-danger" role="alert">{serverError}</div>}
+      <form 
+        onSubmit={handleSubmit} 
+        noValidate 
+        className="bg-white p-4 p-md-5 rounded-4 shadow border-0"
+      >
+        {serverError && (
+          <div className="alert alert-danger rounded-3" role="alert">
+            {serverError}
+          </div>
+        )}
 
-        <FormField id="description" label="Descripción *" error={touched ? descriptionError : ''}>
+        {/* Info del usuario*/}
+        {user && (
+          <div className="d-flex align-items-center mb-4">
+            <div 
+              className="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center me-3 shadow-sm" 
+              style={{ width: '50px', height: '50px', fontSize: '1.5rem', fontWeight: 'bold' }}
+            >
+              {user.nickName.charAt(0).toUpperCase()}
+            </div>
+            <div>
+              <h5 className="m-0 fw-bold">{user.nickName}</h5>
+              <small className="text-muted">Comunidad UNAHUR</small>
+            </div>
+          </div>
+        )}
+
+        <FormField id="description" label="" error={touched ? descriptionError : ''}>
           <textarea
             id="description"
-            className={`form-control ${touched && descriptionError ? 'is-invalid' : ''}`}
+            className={`form-control form-control-lg bg-light border-0 shadow-none ${touched && descriptionError ? 'is-invalid border border-danger' : ''}`}
             rows={4}
-            placeholder="Que estas pensando?"
+            placeholder={`¿Qué estás pensando, ${user?.nickName}?`}
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             onBlur={() => setTouched(true)}
+            style={{ resize: 'none' }}
           />
         </FormField>
 
-        <hr className="my-4" />
-        <ImageInputList imageUrls={imageUrls} setImageUrls={setImageUrls} />
+        <hr className="my-4 text-muted" />
+        
+        <div className="mb-4">
+          <h6 className="fw-bold mb-3">📸 Agregar imágenes</h6>
+          <ImageInputList imageUrls={imageUrls} setImageUrls={setImageUrls} />
+        </div>
 
-        <hr className="my-4" />
-        <TagSelector selectedTags={selectedTags} toggleTag={toggleTag} />
+        <hr className="my-4 text-muted" />
+        
+        <div className="mb-4">
+          <h6 className="fw-bold mb-3">🏷️ Etiquetas</h6>
+          <TagSelector selectedTags={selectedTags} toggleTag={toggleTag} />
+        </div>
 
         <div className="d-grid mt-5">
-          <button type="submit" className="btn btn-primary btn-lg" disabled={loading}>
-            {loading ? 'Publicando...' : 'Crear Publicación'}
+          <button 
+            type="submit" 
+            className="btn btn-primary btn-lg rounded-pill fw-bold shadow-sm" 
+            disabled={loading}
+          >
+            {loading ? 'Publicando...' : 'Publicar'}
           </button>
         </div>
       </form>

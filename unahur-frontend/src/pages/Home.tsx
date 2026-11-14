@@ -36,8 +36,9 @@ const Home = () => {
       >
         <h1 className="display-4 fw-bold mb-3">UnaHur Anti-Social Net</h1>
         <p className="col-md-8 mx-auto fs-5 fw-light">
-          El rincón exclusivo para la comunidad de la universidad. Un espacio sin presiones para compartir ideas, interactuar con compañeros y scrollear en paz mientras compila el código.
-        </p>
+          Un espacio sin presiones para compartir ideas, interactuar con compañeros y scrollear en paz mientras compila el código.
+
+  </p>
       </div>
 
       <div className="d-flex justify-content-between align-items-center mb-4">

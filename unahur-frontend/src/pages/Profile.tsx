@@ -37,23 +37,54 @@ const Profile = () => {
   if (!user) return null; 
 
   return (
-    <main className="container pb-5">
-      {/* Cabecera del perfil */}
-      <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-5 pb-4 border-bottom">
-        <div>
-          <h2 className="mb-1 fw-bold text-primary">@{user.nickName}</h2>
-          <p className="text-muted mb-0">{user.email}</p>
-        </div>
+    <main className="container pb-5 mt-4">
+      {/* Cabecera del perfil*/}
+      <div className="card border-0 shadow-sm rounded-4 overflow-hidden mb-5">
+        <div 
+          className="bg-primary bg-gradient" 
+          style={{ height: '120px' }}
+        ></div>
         
-        <button 
-          className="btn btn-outline-danger mt-3 mt-md-0 shadow-sm" 
-          onClick={handleLogout}
-        >
-          Cerrar sesión
-        </button>
+        <div className="card-body px-4 pb-4 position-relative">
+          <div 
+            className="bg-white rounded-circle d-flex justify-content-center align-items-center shadow" 
+            style={{ 
+              width: '100px', 
+              height: '100px', 
+              fontSize: '3.5rem', 
+              fontWeight: 'bold',
+              color: 'var(--bs-primary)',
+              marginTop: '-70px',
+              border: '4px solid white'
+            }}
+          >
+            {user.nickName.charAt(0).toUpperCase()}
+          </div>
+
+          <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-end mt-3">
+            <div>
+              <h2 className="mb-1 fw-bold text-dark">@{user.nickName}</h2>
+              <p className="text-muted mb-0">{user.email}</p>
+              <span className="badge bg-light text-dark border mt-2 px-3 py-2 rounded-pill">
+                Comunidad UNAHUR
+              </span>
+            </div>
+            
+            <button 
+              className="btn btn-outline-danger mt-3 mt-md-0 rounded-pill px-4 fw-bold shadow-sm" 
+              onClick={handleLogout}
+            >
+              Cerrar sesión
+            </button>
+          </div>
+        </div>
       </div>
 
-      <h4 className="mb-4">Tus Publicaciones ({posts.length})</h4>
+      <div className="d-flex align-items-center justify-content-between mb-4">
+        <h4 className="m-0 fw-bold">
+          Tus Publicaciones <span className="text-muted fs-5">({posts.length})</span>
+        </h4>
+      </div>
 
       <div className="row g-4">
         {loading ? (
@@ -64,8 +95,10 @@ const Profile = () => {
           ))
         ) : posts.length === 0 ? (
           <div className="col-12">
-            <div className="alert alert-light border text-center p-5">
-              <p className="mb-0 fs-5">No tenés ninguna publicación todavía.</p>
+            <div className="bg-white border-0 shadow-sm rounded-4 text-center p-5">
+              <div className="fs-1 mb-3">📭</div>
+              <h5 className="fw-bold">No tenés ninguna publicación todavía.</h5>
+              <p className="text-muted">¡Animate a compartir algo con la comunidad!</p>
             </div>
           </div>
         ) : (

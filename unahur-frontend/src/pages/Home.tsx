@@ -1,3 +1,4 @@
+// src/pages/Home.tsx
 import { useEffect, useState } from 'react';
 import { getPosts } from '../services/api';
 import { useToast } from '../hooks/useToast';
@@ -6,6 +7,7 @@ import type { Post } from '../types';
 
 import PostCard from '../components/PostCard';
 import PostSkeleton from '../components/PostSkeleton';
+import QuickPostBox from '../components/PostBox'; 
 import bannerImg from '../assets/banner-home.jpg'; 
 
 const Home = () => {
@@ -26,7 +28,7 @@ const Home = () => {
     <main className="container pb-5">
       {/* Banner de bienvenida */}
       <div 
-        className="p-5 mb-5 text-white rounded-3 shadow text-center"
+        className="p-5 mb-4 text-white rounded-4 shadow-sm text-center"
         style={{
           backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.8)), url(${bannerImg})`,
           backgroundSize: 'cover',
@@ -36,21 +38,22 @@ const Home = () => {
       >
         <h1 className="display-4 fw-bold mb-3">UnaHur Anti-Social Net</h1>
         <p className="col-md-8 mx-auto fs-5 fw-light">
-          Un espacio sin presiones para compartir ideas, interactuar con compañeros y scrollear en paz mientras compila el código.
-
-  </p>
+          El rincón exclusivo para la comunidad de la universidad. Un espacio sin presiones para compartir ideas, interactuar con compañeros y scrollear en paz mientras compila el código.
+        </p>
       </div>
 
+      <QuickPostBox />
+
       <div className="d-flex justify-content-between align-items-center mb-4">
-        <h2 className="m-0">Últimas Publicaciones</h2>
+        <h3 className="m-0 fw-bold">Últimas Publicaciones</h3>
       </div>
 
       <div className="feed">
         {loading ? (
           [1, 2, 3].map((n) => <PostSkeleton key={n} />)
         ) : posts.length === 0 ? (
-          <div className="alert alert-info text-center">
-            No hay publicaciones todavía. ¡Iniciá sesión y sé el primero en postear!
+          <div className="alert alert-info border-0 shadow-sm rounded-4 text-center p-4">
+            No hay publicaciones todavía. ¡Sé el primero en romper el hielo!
           </div>
         ) : (
           posts.map((post) => <PostCard key={post.id} post={post} />)

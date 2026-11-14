@@ -1,4 +1,4 @@
-// src/pages/Home.tsx
+
 import { useEffect, useState } from 'react';
 import { getPosts } from '../services/api';
 import { useToast } from '../hooks/useToast';
@@ -7,7 +7,8 @@ import type { Post } from '../types';
 
 import PostCard from '../components/PostCard';
 import PostSkeleton from '../components/PostSkeleton';
-import QuickPostBox from '../components/PostBox'; 
+import QuickPostBox from '../components/PostBox';
+import UniversityLinks from '../components/LinksUniversidad';
 import bannerImg from '../assets/banner-home.jpg'; 
 
 const Home = () => {
@@ -41,6 +42,8 @@ const Home = () => {
           El rincón exclusivo para la comunidad de la universidad. Un espacio sin presiones para compartir ideas, interactuar con compañeros y scrollear en paz mientras compila el código.
         </p>
       </div>
+
+      <UniversityLinks />
 
       <QuickPostBox />
 

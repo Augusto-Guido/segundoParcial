@@ -4,9 +4,9 @@ import { useToast } from '../hooks/useToast';
 import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import type { Post } from '../types';
 
-
 import PostCard from '../components/PostCard';
 import PostSkeleton from '../components/PostSkeleton';
+import bannerImg from '../assets/banner-home.jpg'; 
 
 const Home = () => {
   useDocumentTitle('Inicio');
@@ -24,11 +24,19 @@ const Home = () => {
 
   return (
     <main className="container pb-5">
-      {/* Banner de bienvenida*/}
-      <div className="p-5 mb-5 bg-dark text-white rounded-3 shadow text-center">
-        <h1 className="display-4 fw-bold">UnaHur Anti-Social Net</h1>
-        <p className="col-md-8 mx-auto fs-5 mt-3">
-          Frase de Bievenida!!
+      {/* Banner de bienvenida */}
+      <div 
+        className="p-5 mb-5 text-white rounded-3 shadow text-center"
+        style={{
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.8)), url(${bannerImg})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat'
+        }}
+      >
+        <h1 className="display-4 fw-bold mb-3">UnaHur Anti-Social Net</h1>
+        <p className="col-md-8 mx-auto fs-5 fw-light">
+          El rincón exclusivo para la comunidad de la universidad. Un espacio sin presiones para compartir ideas, interactuar con compañeros y scrollear en paz mientras compila el código.
         </p>
       </div>
 

@@ -1,32 +1,67 @@
-# React + TypeScript + Vite
+# Anti-SocialNet — Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Aplicación web desarrollada con **React**, **TypeScript** y **Vite** que constituye la interfaz de usuario de la red social universitaria **Anti-SocialNet**.
 
-Currently, two official plugins are available:
+## Tecnologías y herramientas
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+* **Biblioteca UI:** React (`.tsx`)
+* **Lenguaje:** TypeScript (`tsconfig.json`, `tsconfig.app.json`, `tsconfig.node.json`)
+* **Empaquetador y servidor de desarrollo:** Vite (`vite.config.ts`)
+* **Linter:** Oxlint (`.oxlintrc.json`)
+* **Estilos:** CSS (`src/index.css`)
 
-## React Compiler
+### Repositorio a clonar 
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+https://github.com/Augusto-Guido/segundoParcial.git
 
-## Expanding the Oxlint configuration
+## 📂 Instalación
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+1. Descargar y descomprimir el archivo `unahur-frontEnd.zip`.
+1.a O clonar repositorio desde https://github.com/Augusto-Guido/segundoParcial.git
+2. Abrir una terminal dentro de la carpeta `unahur-frontEnd`.
+3. Instalar las dependencias:
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+```bash
+npm install
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+4. Iniciar modo desarrollo:
+
+```bash
+npm run dev
+```
+
+
+### Configurar variables de entorno:
+Crea un archivo .env en la raíz de unahur-frontEnd/ apuntando a la URL donde corre el servidor backend (verifica el nombre exacto de la variable en src/services/api.ts):
+
+
+## Estructura del proyecto
+
+```text
+unahur-frontEnd/
+├── public/
+├── src/
+│   ├── assets/
+│   ├── components/
+│   ├── context/
+│   ├── hooks/
+│   ├── pages/
+│   ├── services/
+│   ├── types/
+│   ├── utils/
+│   ├── App.tsx
+│   ├── index.css
+│   └── main.tsx
+├── .oxlintrc.json
+├── index.html
+├── package.json
+├── tsconfig.app.json
+├── tsconfig.json
+├── tsconfig.node.json
+└── vite.config.ts
+```
+### Integrantes 
+Ferrero Facundo, Salinas Enzo, Guido y Spano Augusto, Janse Imanol
+
+Universidad Nacional de Hurlingham, Estrategias de Persistencia, 2026

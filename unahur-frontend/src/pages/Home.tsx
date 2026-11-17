@@ -1,5 +1,4 @@
-
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { getPosts } from '../services/api';
 import { useToast } from '../hooks/useToast';
 import { useDocumentTitle } from '../hooks/useDocumentTitle';
@@ -17,17 +16,38 @@ const Home = () => {
 
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
+  const [activeTag, setActiveTag] = useState<number | null>(null);
 
   useEffect(() => {
     getPosts()
-      .then((data) => setPosts(data))
+      .then((data) => {
+        setPosts(data);
+      })
       .catch((err) => showToast(err.message || 'Error al cargar las publicaciones', 'error'))
       .finally(() => setLoading(false));
   }, [showToast]);
 
+  const availableTags = useMemo(() => {
+    const tagsMap = new Map();
+    posts.forEach((post: any) => {
+      if (post.Tags && Array.isArray(post.Tags)) {
+        post.Tags.forEach((tag: { id: number; name: string }) => {
+          tagsMap.set(tag.id, tag);
+        });
+      }
+    });
+    return Array.from(tagsMap.values());
+  }, [posts]);
+
+  const filteredPosts = useMemo(() => {
+    if (activeTag === null) return posts;
+    return posts.filter((post: any) => 
+      post.Tags?.some((tag: { id: number; name: string }) => tag.id === activeTag)
+    );
+  }, [posts, activeTag]);
+
   return (
     <main className="container pb-5">
-      {/* Banner de bienvenida */}
       <div 
         className="p-5 mb-4 text-white rounded-4 shadow-sm text-center"
         style={{
@@ -47,19 +67,46 @@ const Home = () => {
 
       <QuickPostBox />
 
-      <div className="d-flex justify-content-between align-items-center mb-4">
-        <h3 className="m-0 fw-bold">Últimas Publicaciones</h3>
+      <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+        <h3 className="m-0 fw-bold text-nowrap">Últimas Publicaciones</h3>
+        
+        {availableTags.length > 0 && (
+          <div 
+            className="d-flex gap-2 overflow-auto pb-2 pb-md-0" 
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          >
+            <button 
+              className={`btn rounded-pill px-4 fw-bold ${activeTag === null ? 'btn-primary shadow-sm' : 'btn-light text-secondary'}`}
+              onClick={() => setActiveTag(null)}
+              style={{ whiteSpace: 'nowrap' }}
+            >
+              Todas
+            </button>
+            {availableTags.map(tag => (
+              <button 
+                key={tag.id}
+                className={`btn rounded-pill px-3 ${activeTag === tag.id ? 'btn-primary shadow-sm' : 'btn-light text-secondary'}`}
+                onClick={() => setActiveTag(tag.id)}
+                style={{ whiteSpace: 'nowrap' }}
+              >
+                #{tag.name}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
       <div className="feed">
         {loading ? (
           [1, 2, 3].map((n) => <PostSkeleton key={n} />)
-        ) : posts.length === 0 ? (
+        ) : filteredPosts.length === 0 ? (
           <div className="alert alert-info border-0 shadow-sm rounded-4 text-center p-4">
-            No hay publicaciones todavía. ¡Sé el primero en romper el hielo!
+            {activeTag 
+              ? 'No hay publicaciones con esta etiqueta.' 
+              : 'No hay publicaciones todavía. ¡Sé el primero en romper el hielo!'}
           </div>
         ) : (
-          posts.map((post) => <PostCard key={post.id} post={post} />)
+          filteredPosts.map((post) => <PostCard key={post.id} post={post} />)
         )}
       </div>
     </main>

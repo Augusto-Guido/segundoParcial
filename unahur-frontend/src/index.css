@@ -280,3 +280,7 @@ a { color: var(--primary); }
   padding: 0.6rem 0;
   font-size: 0.9rem;
 }
+.post-card.featured {
+  border: 2px solid var(--bs-warning);
+  box-shadow: 0 0.5rem 1.5rem rgba(255, 193, 7, 0.25);
+}

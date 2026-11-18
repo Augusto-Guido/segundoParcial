@@ -21,11 +21,16 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const [activeTag, setActiveTag] = useState<number | null>(null);
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
+  const [featuredPost, setFeaturedPost] = useState<Post | null>(null);
 
   useEffect(() => {
     getPosts()
       .then((data) => {
-        setPosts(sortByNewest(data));
+        const sorted = sortByNewest(data);
+        setPosts(sorted);
+        if (sorted.length > 0) {
+          setFeaturedPost(sorted[Math.floor(Math.random() * sorted.length)]);
+        }
       })
       .catch((err) => showToast(err.message || 'Error al cargar las publicaciones', 'error'))
       .finally(() => setLoading(false));
@@ -68,6 +73,12 @@ const handleSelectTag = (tagId: number | null) => {
       <UniversityLinks />
 
       <QuickPostBox />
+        {featuredPost && (
+        <section className="mb-5">
+          <h3 className="fw-bold mb-3">⭐ Publicación destacada</h3>
+          <PostCard post={featuredPost} featured />
+        </section>
+      )}
 
       <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
         <h3 className="m-0 fw-bold text-nowrap">Últimas Publicaciones</h3>
@@ -129,5 +140,6 @@ const handleSelectTag = (tagId: number | null) => {
     </main>
   );
 };
+
 
 export default Home;

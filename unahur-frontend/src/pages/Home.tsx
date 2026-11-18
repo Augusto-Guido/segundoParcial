@@ -11,6 +11,8 @@ import QuickPostBox from '../components/PostBox';
 import UniversityLinks from '../components/LinksUniversidad';
 import bannerImg from '../assets/banner-home.jpg'; 
 
+const PAGE_SIZE = 5;
+
 const Home = () => {
   useDocumentTitle('Inicio');
   const { showToast } = useToast();
@@ -18,6 +20,7 @@ const Home = () => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeTag, setActiveTag] = useState<number | null>(null);
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
   useEffect(() => {
     getPosts()
@@ -38,6 +41,12 @@ const Home = () => {
   if (activeTag === null) return posts;
   return posts.filter((post) => post.Tags?.some((tag) => tag.id === activeTag));
 }, [posts, activeTag]);
+const visiblePosts = filteredPosts.slice(0, visibleCount);
+
+const handleSelectTag = (tagId: number | null) => {
+  setActiveTag(tagId);
+  setVisibleCount(PAGE_SIZE);
+};
 
   return (
     <main className="container pb-5">
@@ -70,7 +79,7 @@ const Home = () => {
           >
             <button 
               className={`btn rounded-pill px-4 fw-bold ${activeTag === null ? 'btn-primary shadow-sm' : 'btn-light text-secondary'}`}
-              onClick={() => setActiveTag(null)}
+              onClick={() => handleSelectTag(null)}
               style={{ whiteSpace: 'nowrap' }}
             >
               Todas
@@ -79,7 +88,7 @@ const Home = () => {
               <button 
                 key={tag.id}
                 className={`btn rounded-pill px-3 ${activeTag === tag.id ? 'btn-primary shadow-sm' : 'btn-light text-secondary'}`}
-                onClick={() => setActiveTag(tag.id)}
+                onClick={() => handleSelectTag(tag.id)}
                 style={{ whiteSpace: 'nowrap' }}
               >
                 #{tag.name}
@@ -99,7 +108,22 @@ const Home = () => {
               : 'No hay publicaciones todavía. ¡Sé el primero en romper el hielo!'}
           </div>
         ) : (
-          filteredPosts.map((post) => <PostCard key={post.id} post={post} />)
+                    <>
+            {visiblePosts.map((post) => (
+              <PostCard key={post.id} post={post} />
+            ))}
+
+            {visibleCount < filteredPosts.length && (
+              <div className="text-center mt-4">
+                <button
+                  className="btn btn-outline-primary rounded-pill px-4"
+                  onClick={() => setVisibleCount((c) => c + PAGE_SIZE)}
+                >
+                  Cargar más publicaciones
+                </button>
+              </div>
+            )}
+          </>
         )}
       </div>
     </main>

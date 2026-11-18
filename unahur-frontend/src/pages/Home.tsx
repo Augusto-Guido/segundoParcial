@@ -2,7 +2,8 @@ import { useEffect, useState, useMemo } from 'react';
 import { getPosts } from '../services/api';
 import { useToast } from '../hooks/useToast';
 import { useDocumentTitle } from '../hooks/useDocumentTitle';
-import type { Post } from '../types';
+import { sortByNewest } from '../utils/format';
+import type { Post, Tag } from '../types';
 
 import PostCard from '../components/PostCard';
 import PostSkeleton from '../components/PostSkeleton';
@@ -21,30 +22,22 @@ const Home = () => {
   useEffect(() => {
     getPosts()
       .then((data) => {
-        setPosts(data);
+        setPosts(sortByNewest(data));
       })
       .catch((err) => showToast(err.message || 'Error al cargar las publicaciones', 'error'))
       .finally(() => setLoading(false));
   }, [showToast]);
 
   const availableTags = useMemo(() => {
-    const tagsMap = new Map();
-    posts.forEach((post: any) => {
-      if (post.Tags && Array.isArray(post.Tags)) {
-        post.Tags.forEach((tag: { id: number; name: string }) => {
-          tagsMap.set(tag.id, tag);
-        });
-      }
-    });
-    return Array.from(tagsMap.values());
-  }, [posts]);
+  const tagsMap = new Map<number, Tag>();
+  posts.forEach((post) => post.Tags?.forEach((tag) => tagsMap.set(tag.id, tag)));
+  return Array.from(tagsMap.values());
+}, [posts]);
 
   const filteredPosts = useMemo(() => {
-    if (activeTag === null) return posts;
-    return posts.filter((post: any) => 
-      post.Tags?.some((tag: { id: number; name: string }) => tag.id === activeTag)
-    );
-  }, [posts, activeTag]);
+  if (activeTag === null) return posts;
+  return posts.filter((post) => post.Tags?.some((tag) => tag.id === activeTag));
+}, [posts, activeTag]);
 
   return (
     <main className="container pb-5">

@@ -1,3 +1,4 @@
+import { sortByNewest } from '../utils/format';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useAuth } from '../hooks/useAuth';
@@ -23,7 +24,7 @@ const Profile = () => {
     if (!user) return;
 
     getPostsByUser(user.id)
-      .then((data) => setPosts(data))
+      .then((data) => setPosts(sortByNewest(data)))
       .catch((err) => showToast(err.message || 'Error al cargar tus publicaciones', 'error'))
       .finally(() => setLoading(false));
   }, [user, showToast]);

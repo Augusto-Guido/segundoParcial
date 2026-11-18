@@ -9,9 +9,14 @@ const QuickPostBox = () => {
   if (!user) return null;
 
   return (
-    <div 
+        <div 
       className="card border-0 shadow-sm rounded-4 mb-5 p-3" 
+      role="button"
+      tabIndex={0}
       onClick={() => navigate('/new-post')}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') navigate('/new-post');
+      }}
       style={{ cursor: 'pointer' }}
     >
       <div className="d-flex align-items-center">

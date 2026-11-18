@@ -74,7 +74,7 @@ const handleSelectTag = (tagId: number | null) => {
 
       <QuickPostBox />
         {featuredPost && (
-        <section className="mb-5">
+        <section className="featured-wrap mb-5">
           <h3 className="fw-bold mb-3">⭐ Publicación destacada</h3>
           <PostCard post={featuredPost} featured />
         </section>

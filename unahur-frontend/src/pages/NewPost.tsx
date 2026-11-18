@@ -5,10 +5,10 @@ import { useAuth } from '../hooks/useAuth';
 import { useToast } from '../hooks/useToast';
 import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import { createPost, createPostImage } from '../services/api';
-
 import FormField from '../components/FormField';
 import ImageInputList from '../components/ImageInputList';
 import TagSelector from '../components/TagSelector';
+import { isValidHttpUrl } from '../utils/format';
 
 const NewPost = () => {
   useDocumentTitle('Nueva Publicación');
@@ -31,13 +31,14 @@ const NewPost = () => {
   };
 
   const descriptionError = !description.trim() ? 'La descripción es obligatoria' : '';
-
+  const hasInvalidUrl = imageUrls.some((url) => url.trim() !== '' && !isValidHttpUrl(url.trim()));
+  const imagesError = hasInvalidUrl ? 'Alguna URL de imagen no es válida (debe empezar con http:// o https://)' : '';
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setTouched(true);
     setServerError('');
 
-    if (descriptionError || !user) return;
+    if (descriptionError || imagesError || !user) return;
 
     setLoading(true);
     try {
@@ -107,6 +108,9 @@ const NewPost = () => {
           <h6 className="fw-bold mb-3">📸 Agregar imágenes</h6>
           <ImageInputList imageUrls={imageUrls} setImageUrls={setImageUrls} />
         </div>
+        {touched && imagesError && (
+        <div className="text-danger small mt-2">{imagesError}</div>
+)}
 
         <hr className="my-4 text-muted" />
         

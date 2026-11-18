@@ -46,7 +46,10 @@ const Home = () => {
   if (activeTag === null) return posts;
   return posts.filter((post) => post.Tags?.some((tag) => tag.id === activeTag));
 }, [posts, activeTag]);
-const visiblePosts = filteredPosts.slice(0, visibleCount);
+const feedPosts = filteredPosts.filter(
+  (post) => activeTag !== null || post.id !== featuredPost?.id
+);
+const visiblePosts = feedPosts.slice(0, visibleCount);
 
 const handleSelectTag = (tagId: number | null) => {
   setActiveTag(tagId);
@@ -124,7 +127,7 @@ const handleSelectTag = (tagId: number | null) => {
               <PostCard key={post.id} post={post} />
             ))}
 
-            {visibleCount < filteredPosts.length && (
+            {visibleCount < feedPosts.length && (
               <div className="text-center mt-4">
                 <button
                   className="btn btn-outline-primary rounded-pill px-4"

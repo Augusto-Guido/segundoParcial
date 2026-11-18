@@ -44,12 +44,20 @@ const NewPost = () => {
     try {
       const newPost = await createPost(description.trim(), user.id, selectedTags);
 
-      const validUrls = imageUrls.filter((url) => url.trim() !== '');
+            const validUrls = imageUrls.filter((url) => url.trim() !== '');
+      let failedImages = 0;
       if (validUrls.length > 0) {
-        await Promise.all(validUrls.map((url) => createPostImage(url.trim(), newPost.id)));
+        const results = await Promise.allSettled(
+          validUrls.map((url) => createPostImage(url.trim(), newPost.id))
+        );
+        failedImages = results.filter((r) => r.status === 'rejected').length;
       }
 
-      showToast('¡Publicación creada con éxito!', 'success');
+      if (failedImages > 0) {
+        showToast(`Publicación creada, pero ${failedImages} imagen(es) no se pudieron guardar`, 'error');
+      } else {
+        showToast('¡Publicación creada con éxito!', 'success');
+      }
       navigate('/profile');
     } catch (err) {
       setServerError(err instanceof Error ? err.message : 'Error al crear la publicación');

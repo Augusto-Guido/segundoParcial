@@ -16,10 +16,31 @@ https://github.com/Augusto-Guido/segundoParcial.git
 
 ## 📂 Instalación
 
-1. Descargar y descomprimir el archivo `unahur-frontEnd.zip`.
-1.a O clonar repositorio desde https://github.com/Augusto-Guido/segundoParcial.git
-2. Abrir una terminal dentro de la carpeta `unahur-frontEnd`.
+1. Clonar el repositorio:
+
+```bash
+git clone https://github.com/Augusto-Guido/segundoParcial.git
+```
+
+2. Entrar a la carpeta del frontend:
+
+```bash
+cd segundoParcial/unahur-frontend
+```
+
 3. Instalar las dependencias:
+
+```bash
+npm install
+```
+
+4. Iniciar el modo desarrollo:
+
+```bash
+npm run dev
+```
+
+La app queda en `http://localhost:5173`.
 
 ```bash
 npm install
@@ -64,4 +85,4 @@ unahur-frontEnd/
 ### Integrantes 
 Ferrero Facundo, Salinas Enzo, Guido y Spano Augusto, Janse Imanol
 
-Universidad Nacional de Hurlingham, Estrategias de Persistencia, 2026
+Universidad Nacional de Hurlingham, Construccion de interfaces, 2026

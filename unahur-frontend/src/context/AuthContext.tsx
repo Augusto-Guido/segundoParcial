@@ -35,7 +35,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const login = useCallback(async (nickName: string, password: string) => {
     const users = await getUsers()
     const wanted = nickName.trim().toLowerCase()
-    const found = users.find(u => u.nickName.toLowerCase() === wanted)
+    const found =
+      users.find(u => u.nickName === nickName.trim()) ??
+      users.find(u => u.nickName.toLowerCase() === wanted)
     if (!found) throw new Error('No existe un usuario con ese nickname')
     if (password !== DEMO_PASSWORD) throw new Error('La contraseña es incorrecta')
     try {

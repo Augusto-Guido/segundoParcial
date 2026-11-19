@@ -31,6 +31,7 @@ Por defecto el frontend apunta a `http://localhost:3001`.
 git clone https://github.com/lucasfigarola/backend-api
 cd backend-api
 npm install
+node seed.js
 npm start
 ```
 Queda en `http://localhost:3001`.
@@ -60,15 +61,16 @@ Usar el nickName de cualquier usuario existente (o registrar uno nuevo) con la c
 ## Estructura
 
 ```text
-src/
-├── assets/       # imágenes
-├── components/   # componentes reutilizables
-├── context/      # AuthContext y ToastContext
-├── hooks/        # useAuth, useToast, useUsersMap, ...
-├── pages/        # Home, Login, Register, PostDetail, Profile, NewPost
-├── services/     # api.ts (llamadas a la API)
-├── types/        # interfaces TypeScript
-└── utils/        # helpers
+unahur-frontend/
+└──src/
+    ├── assets/       # imágenes
+    ├── components/   # componentes reutilizables
+    ├── context/      # AuthContext y ToastContext
+    ├── hooks/        # useAuth, useToast, useUsersMap, ...
+    ├── pages/        # Home, Login, Register, PostDetail, Profile, NewPost
+    ├── services/     # api.ts (llamadas a la API)
+    ├── types/        # interfaces TypeScript
+    └── utils/        # helpers
 ```
 
 ## Integrantes
